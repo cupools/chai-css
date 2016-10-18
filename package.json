@@ -1,0 +1,35 @@
+{
+  "name": "chai-css",
+  "version": "0.0.1",
+  "description": "Extends Chai with assertions about css",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rm -rf lib && node node_modules/babel-cli/bin/babel src -d lib -D -w",
+    "test": "cross-env NODE_ENV=testing node_modules/.bin/nyc --reporter lcov --reporter text --report-dir test/coverage --require babel-core/register node_modules/.bin/mocha test/*.spec.js && rm -rf .nyc_output",
+    "coverage": "cat test/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
+  },
+  "keywords": [
+    "chai",
+    "css",
+    "assertion"
+  ],
+  "author": "liyh <cupools@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-runtime": "^6.11.6",
+    "postcss": "^5.2.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.17.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-2": "^6.13.0",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.14",
+    "cross-env": "^2.0.1",
+    "mocha": "^3.0.2",
+    "nock": "^8.0.0",
+    "nyc": "^8.3.0"
+  }
+}
