@@ -1,5 +1,5 @@
 import fs from 'fs'
-import postcss from 'postcss'
+import * as css from './css'
 
 /**
  * @example
@@ -14,31 +14,19 @@ function chaiCss(chai, utils) {
   let { Assertion } = chai
 
   Assertion.addChainableMethod('selector', function (selector) {
-    let path = utils.flag(this, 'object')
-    let content = ''
+    let raw = utils.flag(this, 'object')
+    let content = raw.slice(-4) === '.css' && fs.existsSync(raw)
+      ? fs.readFileSync(raw, 'utf8')
+      : raw
 
-    if (/\.css$/.test(path) && fs.existsSync(path)) {
-      content = fs.readFileSync(path, 'utf8')
-    } else {
-      content = path
-    }
-
-    let { root } = postcss().process(content)
-    let rule = null
-
-    root.walkRules(r => {
-      if (r.selector === selector) {
-        rule = r
-      }
-    })
-
-    utils.flag(this, 'rule', rule)
-
+    let rule = css.getRule(content, selector)
     this.assert(
       !!rule,
       `expect #{this} to have selector \`${selector}\``,
       `expect #{this} to miss selector \`${selector}\``
     )
+
+    utils.flag(this, 'rule', rule)
   })
 
   Assertion.addMethod('decl', function (target, val) {

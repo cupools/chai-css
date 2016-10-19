@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "rm -rf lib && node node_modules/babel-cli/bin/babel src -d lib -D -w",
-    "test": "cross-env NODE_ENV=testing node_modules/.bin/nyc --reporter lcov --reporter text --report-dir test/coverage --require babel-core/register node_modules/.bin/mocha test/*.spec.js && rm -rf .nyc_output",
+    "test": "cross-env NODE_ENV=testing node_modules/.bin/nyc --reporter lcov --reporter text --report-dir test/coverage --require babel-core/register node_modules/.bin/mocha test/*.test.js && rm -rf .nyc_output",
     "coverage": "cat test/coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
   },
   "keywords": [
@@ -13,8 +13,6 @@
     "css",
     "assertion"
   ],
-  "author": "liyh <cupools@gmail.com>",
-  "license": "MIT",
   "dependencies": {
     "babel-runtime": "^6.11.6",
     "postcss": "^5.2.4"
@@ -31,5 +29,15 @@
     "mocha": "^3.0.2",
     "nock": "^8.0.0",
     "nyc": "^8.3.0"
-  }
+  },
+  "author": "liyh <cupools@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cupools/chai-css.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cupools/chai-css/issues"
+  },
+  "homepage": "https://github.com/cupools/chai-css#readme"
 }
