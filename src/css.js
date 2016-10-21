@@ -16,5 +16,12 @@ export const getRule = function (content, selector) {
 }
 
 export const getDecl = function (rule) {
+  let ret = {}
 
+  rule.walkDecls(decl => {
+    let { prop, value } = decl
+    ret[prop] = (ret[prop] || []).concat(value)
+  })
+
+  return ret
 }

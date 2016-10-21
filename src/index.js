@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import * as css from './css'
 
 /**
@@ -15,11 +16,12 @@ function chaiCss(chai, utils) {
 
   Assertion.addChainableMethod('selector', function (selector) {
     let raw = utils.flag(this, 'object')
-    let content = raw.slice(-4) === '.css' && fs.existsSync(raw)
+
+    let content = raw.slice(-4) === '.css' && fs.existsSync(path.resolve(raw))
       ? fs.readFileSync(raw, 'utf8')
       : raw
-
     let rule = css.getRule(content, selector)
+
     this.assert(
       !!rule,
       `expect #{this} to have selector \`${selector}\``,
@@ -38,24 +40,25 @@ function chaiCss(chai, utils) {
       throw Error('`decl` should declare target value')
     }
 
-    let tmp = {}
-    rule.walkDecls(decl => {
-      let { prop, value } = decl
-      tmp[prop] = value
-    })
+    let actual = css.getDecl(rule)
+    let expected = val === undefined ? target : { [target]: val }
 
-    let actual = val === undefined
-      ? target
-      : {
-        [target]: val
-      }
-
-    Object.keys(actual).forEach(key => {
+    if (expected.constructor === String) {
       this.assert(
-        actual[key] === tmp[key],
-        `expect ${key} to be ${actual[key]} but get ${tmp[key]}`
+        !!actual[expected],
+        `expect ${expected} to be exist but miss`
       )
-    })
+      return
+    }
+
+    Object.keys(expected).forEach(
+      key => {
+        this.assert(
+          Array.includes(actual[key], expected[key]),
+          `expect ${key} to be ${expected[key]} but get ${actual[key]}`
+        )
+      }
+    )
   })
 }
 

@@ -6,8 +6,8 @@ Extends Chai with assertions about css.
 
 - [x] Basic function
 - [ ] Camel case support
-- [ ] Duplicate declares support
-- [ ] Test coverage
+- [x] Duplicate declares support
+- [x] Test coverage
 - [ ] Documentation
 
 ## Getting Started
