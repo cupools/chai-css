@@ -5,7 +5,7 @@ Extends Chai with assertions about css.
 ## TODO
 
 - [x] Basic function
-- [ ] Camel case support
+- [ ] Vendor & camel case support
 - [x] Duplicate declares support
 - [x] Test coverage
 - [ ] Documentation
@@ -26,4 +26,10 @@ expect('.foo {width: 10px}').to.have.selector('.foo')
     width: '10px',
     height: '10px'
   })
+```
+
+## Test
+
+```bash
+$ npm i && npm test
 ```

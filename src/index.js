@@ -62,4 +62,10 @@ function chaiCss(chai, utils) {
   })
 }
 
+function reviseCamelCase(str) {
+  const vendor = ['moz', 'o', 'ms', 'webkit']
+  let revise = str.replace(/[A-Z]/g, '-$1')
+  return revise
+}
+
 export default chaiCss
