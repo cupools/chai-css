@@ -7,10 +7,15 @@ Extends Chai with assertions about css.
 - [x] Basic function
 - [ ] Vendor & camel case support
 - [x] Duplicate declares support
+- [ ] Assertion error message
 - [x] Test coverage
 - [ ] Documentation
 
 ## Getting Started
+
+```bash
+npm i -D cupools/chai-cs
+```
 
 ```js
 import { expect }, Chai from 'chai'
