@@ -14,7 +14,7 @@ Extends Chai with assertions about css.
 ## Getting Started
 
 ```bash
-npm i -D cupools/chai-cs
+$ npm i -D cupools/chai-csc
 ```
 
 ```js
