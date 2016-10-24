@@ -15,21 +15,21 @@ export const getRule = function (content, selector) {
 
 export const getAtRule = function (content, name, params) {
   let root = postcss.parse(content)
-  let rules = []
+  let atRules = []
 
-  root.walkRules(rule => {
-    if (rule.name === name && (params === undefined || params === rule.params)) {
-      rules.push(rule)
+  root.walkAtRules(atRule => {
+    if (atRule.name === name && (params === undefined || params === atRule.params)) {
+      atRules.push(atRule)
     }
   })
 
-  return rules.length ? rules : null
+  return atRules.length ? atRules : null
 }
 
-export const getDecl = function (rule) {
+export const getDecl = function (container) {
   let ret = {}
 
-  rule.walkDecls(decl => {
+  container.walkDecls(decl => {
     let { prop, value } = decl
     ret[prop] = (ret[prop] || []).concat(value)
   })

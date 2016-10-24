@@ -4,9 +4,9 @@ import * as css from './css'
 
 /**
  * @example
- * expect('path/foo.css').to.have.selector('.foo')
- * expect('content').to.have.selector('.foo').and.decl('width', '100px')
- * expect('content').to.have.selector('.foo').and.decl({
+ * expect('path/foo.css').to.have.rule('.foo')
+ * expect('content').to.have.rule('.foo').and.decl('width', '100px')
+ * expect('content').to.have.rule('.foo').and.decl({
  *     width: '100px',
  *     height: '50px'
  * })
@@ -15,16 +15,14 @@ function chaiCss(chai, utils) {
   let { Assertion } = chai
 
   Assertion.addChainableMethod('rule', chainMethodRule(utils))
+  Assertion.addChainableMethod('atRule', chainMethodAtRule(utils))
   Assertion.addMethod('decl', methodDecl(utils))
 }
 
 function chainMethodRule(utils) {
   return function (selector) {
     let raw = utils.flag(this, 'object')
-
-    let content = raw.slice(-4) === '.css' && fs.existsSync(path.resolve(raw))
-      ? fs.readFileSync(raw, 'utf8')
-      : raw
+    let content = reviseRaw(raw)
     let rules = css.getRule(content, selector)
 
     this.assert(
@@ -37,12 +35,28 @@ function chainMethodRule(utils) {
   }
 }
 
+function chainMethodAtRule(utils) {
+  return function (name, params) {
+    let raw = utils.flag(this, 'object')
+    let content = reviseRaw(raw)
+    let atRules = css.getAtRule(content, name, params)
+
+    this.assert(
+      !!atRules,
+      `expect #{this} to have atRule \`${name}\``,
+      `expect #{this} to miss atRule \`${name}\``
+    )
+
+    utils.flag(this, 'rules', atRules)
+  }
+}
+
 function methodDecl(utils) {
   return function (target, val) {
     let rules = utils.flag(this, 'rules')
 
     if (!rules) {
-      throw Error('`decl` should be in the method chain after `rule`')
+      throw Error('`decl` should be in the method chain after `rule` or `atRule`')
     } else if (!target) {
       throw Error('`decl` should declare target value')
     }
@@ -69,9 +83,14 @@ function methodDecl(utils) {
   }
 }
 
+function reviseRaw(raw) {
+  return raw.slice(-4) === '.css' && fs.existsSync(path.resolve(raw))
+    ? fs.readFileSync(raw, 'utf8')
+    : raw
+}
+
 function combineDecls(decls) {
   let ret = {}
-
   decls.forEach(decl => {
     Object.keys(decl).forEach(key => {
       let val = decl[key]

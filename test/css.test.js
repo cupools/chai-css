@@ -14,6 +14,13 @@ describe('css.js', function () {
     })
   })
 
+  describe('atRule', function () {
+    it('should work', function () {
+      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media').should.have.deep.property('[0].selector', '.a')
+      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media', '(max-width: 10px)').should.have.deep.property('[0].selector', '.a')
+    })
+  })
+
   describe('decl', function () {
     it('should work', function () {
       css.getDecl(postcss.parse('.a {width:10px;}').first).should.have.property('width')
