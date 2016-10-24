@@ -8,7 +8,7 @@ Extends Chai with assertions about css.
 - [ ] Vendor & camel case support
 - [x] Duplicate declares support
 - [ ] Assertion error message
-- [ ] AtRule and keyframes support
+- [ ] AtRule support
 - [ ] Test coverage
 - [ ] Documentation
 

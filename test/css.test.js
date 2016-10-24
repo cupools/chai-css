@@ -6,10 +6,10 @@ import * as css from '../src/css'
 import './common.js'
 
 describe('css.js', function () {
-  describe('selector', function () {
+  describe('rule', function () {
     it('should work', function () {
-      css.getRule('.a {width:10px;}', '.a').should.have.property('selector', '.a')
-      css.getRule('.a {width:10px;} .b,.c {width:2px;}', '.b,.c').should.have.property('selector', '.b,.c')
+      css.getRule('.a {width:10px;}', '.a').should.have.deep.property('[0].selector', '.a')
+      css.getRule('.a {width:10px;} .b,.c {width:2px;}', '.b,.c').should.have.deep.property('[0].selector', '.b,.c')
       expect(css.getRule('.a {width:10px;} .b,.c {width:2px;}', '.null')).to.be.a('null')
     })
   })

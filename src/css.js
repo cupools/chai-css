@@ -10,9 +10,20 @@ export const getRule = function (content, selector) {
     }
   })
 
-  let decls = rules.reduce((ret, r) => ret.concat(r.nodes), [])
-  let rule = postcss.rule({ selector }).append(...decls)
-  return rules.length ? rule : null
+  return rules.length ? rules : null
+}
+
+export const getAtRule = function (content, name, params) {
+  let root = postcss.parse(content)
+  let rules = []
+
+  root.walkRules(rule => {
+    if (rule.name === name && (params === undefined || params === rule.params)) {
+      rules.push(rule)
+    }
+  })
+
+  return rules.length ? rules : null
 }
 
 export const getDecl = function (rule) {

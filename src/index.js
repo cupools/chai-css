@@ -14,33 +14,40 @@ import * as css from './css'
 function chaiCss(chai, utils) {
   let { Assertion } = chai
 
-  Assertion.addChainableMethod('selector', function (selector) {
+  Assertion.addChainableMethod('rule', chainMethodRule(utils))
+  Assertion.addMethod('decl', methodDecl(utils))
+}
+
+function chainMethodRule(utils) {
+  return function (selector) {
     let raw = utils.flag(this, 'object')
 
     let content = raw.slice(-4) === '.css' && fs.existsSync(path.resolve(raw))
       ? fs.readFileSync(raw, 'utf8')
       : raw
-    let rule = css.getRule(content, selector)
+    let rules = css.getRule(content, selector)
 
     this.assert(
-      !!rule,
+      !!rules,
       `expect #{this} to have selector \`${selector}\``,
       `expect #{this} to miss selector \`${selector}\``
     )
 
-    utils.flag(this, 'rule', rule)
-  })
+    utils.flag(this, 'rules', rules)
+  }
+}
 
-  Assertion.addMethod('decl', function (target, val) {
-    let rule = utils.flag(this, 'rule')
+function methodDecl(utils) {
+  return function (target, val) {
+    let rules = utils.flag(this, 'rules')
 
-    if (!rule) {
+    if (!rules) {
       throw Error('`decl` should be in the method chain after `rule`')
     } else if (!target) {
       throw Error('`decl` should declare target value')
     }
 
-    let actual = css.getDecl(rule)
+    let actual = combineDecls(rules.map(css.getDecl.bind(css)))
     let expected = val === undefined ? target : { [target]: val }
 
     if (expected.constructor === String) {
@@ -59,7 +66,20 @@ function chaiCss(chai, utils) {
         )
       }
     )
+  }
+}
+
+function combineDecls(decls) {
+  let ret = {}
+
+  decls.forEach(decl => {
+    Object.keys(decl).forEach(key => {
+      let val = decl[key]
+      ret[key] = (ret[key] || []).concat(val)
+    })
   })
+
+  return ret
 }
 
 function reviseCamelCase(str) {
