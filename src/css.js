@@ -2,28 +2,28 @@ import postcss from 'postcss'
 
 export const getRule = function (content, selector) {
   let root = postcss.parse(content)
-  let rules = []
+  let ret = postcss.root()
 
   root.walkRules(rule => {
     if (rule.selector === selector) {
-      rules.push(rule)
+      ret.append(rule)
     }
   })
 
-  return rules.length ? rules : null
+  return ret.nodes.length ? ret : null
 }
 
 export const getAtRule = function (content, name, params) {
   let root = postcss.parse(content)
-  let atRules = []
+  let ret = postcss.root()
 
   root.walkAtRules(atRule => {
     if (atRule.name === name && (params === undefined || params === atRule.params)) {
-      atRules.push(atRule)
+      ret.append(atRule)
     }
   })
 
-  return atRules.length ? atRules : null
+  return ret.nodes.length ? ret : null
 }
 
 export const getDecl = function (container) {

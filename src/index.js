@@ -14,15 +14,17 @@ function chainMethodAtRule(utils) {
   return function (name, params) {
     let raw = utils.flag(this, 'object')
     let content = reviseRaw(raw)
-    let atRules = css.getAtRule(content, name, params)
+    let root = css.getAtRule(content, name, params)
 
     this.assert(
-      !!atRules,
+      !!root,
       `expect #{this} to have atRule \`${name}\``,
       `expect #{this} to miss atRule \`${name}\``
     )
 
-    utils.flag(this, 'rules', atRules)
+    if (root) {
+      utils.flag(this, 'object', root.toString())
+    }
   }
 }
 
@@ -30,15 +32,16 @@ function chainMethodRule(utils) {
   return function (selector) {
     let raw = utils.flag(this, 'object')
     let content = reviseRaw(raw)
-    let rules = css.getRule(content, selector)
+    let root = css.getRule(content, selector)
+
 
     this.assert(
-      !!rules,
+      !!root,
       `expect #{this} to have selector \`${selector}\``,
       `expect #{this} to miss selector \`${selector}\``
     )
 
-    utils.flag(this, 'rules', rules)
+    utils.flag(this, 'object', root.toString())
   }
 }
 
