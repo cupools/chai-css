@@ -16,8 +16,9 @@ describe('css.js', function () {
 
   describe('atRule', function () {
     it('should work', function () {
-      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media').should.have.deep.property('[0].selector', '.a')
-      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media', '(max-width: 10px)').should.have.deep.property('[0].selector', '.a')
+      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media').should.have.deep.property('[0].name', 'media')
+      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media', '(max-width: 10px)').should.have.deep.property('[0].name', 'media')
+      expect(css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media', '(max-width: 0)')).to.be.a('null')
     })
   })
 

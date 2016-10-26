@@ -2,37 +2,12 @@ import fs from 'fs'
 import path from 'path'
 import * as css from './css'
 
-/**
- * @example
- * expect('path/foo.css').to.have.rule('.foo')
- * expect('content').to.have.rule('.foo').and.decl('width', '100px')
- * expect('content').to.have.rule('.foo').and.decl({
- *     width: '100px',
- *     height: '50px'
- * })
- */
 function chaiCss(chai, utils) {
   let { Assertion } = chai
 
-  Assertion.addChainableMethod('rule', chainMethodRule(utils))
   Assertion.addChainableMethod('atRule', chainMethodAtRule(utils))
+  Assertion.addChainableMethod('rule', chainMethodRule(utils))
   Assertion.addMethod('decl', methodDecl(utils))
-}
-
-function chainMethodRule(utils) {
-  return function (selector) {
-    let raw = utils.flag(this, 'object')
-    let content = reviseRaw(raw)
-    let rules = css.getRule(content, selector)
-
-    this.assert(
-      !!rules,
-      `expect #{this} to have selector \`${selector}\``,
-      `expect #{this} to miss selector \`${selector}\``
-    )
-
-    utils.flag(this, 'rules', rules)
-  }
 }
 
 function chainMethodAtRule(utils) {
@@ -48,6 +23,22 @@ function chainMethodAtRule(utils) {
     )
 
     utils.flag(this, 'rules', atRules)
+  }
+}
+
+function chainMethodRule(utils) {
+  return function (selector) {
+    let raw = utils.flag(this, 'object')
+    let content = reviseRaw(raw)
+    let rules = css.getRule(content, selector)
+
+    this.assert(
+      !!rules,
+      `expect #{this} to have selector \`${selector}\``,
+      `expect #{this} to miss selector \`${selector}\``
+    )
+
+    utils.flag(this, 'rules', rules)
   }
 }
 
