@@ -37,8 +37,8 @@ function chainMethodRule(utils) {
 
     this.assert(
       !!root,
-      `expect #{this} to have selector \`${selector}\``,
-      `expect #{this} to miss selector \`${selector}\``
+      `expect #{this} to have rule \`${selector}\``,
+      `expect #{this} to miss rule \`${selector}\``
     )
 
     utils.flag(this, 'object', root.toString())
@@ -47,7 +47,9 @@ function chainMethodRule(utils) {
 
 function methodDecl(utils) {
   return function (target, val) {
-    let rules = utils.flag(this, 'rules')
+    let raw = utils.flag(this, 'object')
+    let content = reviseRaw(raw)
+    let assert = css.assertDecl(content, selector)
 
     if (!rules) {
       throw Error('`decl` should be in the method chain after `rule` or `atRule`')
