@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 
 import { expect } from 'chai'
-import postcss from 'postcss'
 import * as css from '../src/css'
 import './common.js'
 
@@ -16,22 +15,17 @@ describe('css.js', function () {
 
   describe('atRule', function () {
     it('should work', function () {
-      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media').should.have.deep.property('[0].name', 'media')
-      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media', '(max-width: 10px)').should.have.deep.property('[0].name', 'media')
+      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media').should.have.deep.property('nodes[0].name', 'media')
+      css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media', '(max-width: 10px)').should.have.deep.property('nodes[0].name', 'media')
       expect(css.getAtRule('@media (max-width: 10px) { .a {width:10px;} }', 'media', '(max-width: 0)')).to.be.a('null')
     })
   })
 
   describe('decl', function () {
     it('should work', function () {
-      css.getDecl(postcss.parse('.a {width:10px;}').first).should.have.property('width')
-        .and.include('10px')
-        .and.to.be.lengthOf(1)
-
-      css.getDecl(postcss.parse('.a {width:10rem; height:10px; width:10px;}').first).should.have.property('width')
-        .and.include('10px')
-        .and.include('10rem')
-        .and.to.be.lengthOf(2)
+      expect(css.assertDecl('.a {width:10px;}')('width')).to.equal(true)
+      expect(css.assertDecl('.a {width:10px;}')('width', '10px')).to.equal(true)
+      expect(css.assertDecl('.a {width:10px;width:10rem;}')('width', '10rem')).to.equal(true)
     })
   })
 })

@@ -26,13 +26,17 @@ export const getAtRule = function (content, name, params) {
   return ret.nodes.length ? ret : null
 }
 
-export const getDecl = function (container) {
-  let ret = {}
+export const assertDecl = function (content) {
+  let root = postcss.parse(content)
 
-  container.walkDecls(decl => {
-    let { prop, value } = decl
-    ret[prop] = (ret[prop] || []).concat(value)
-  })
+  return function (prop, value) {
+    let flag = false
+    root.walkDecls(decl => {
+      if (!flag && decl.prop === prop && (value === undefined || decl.value === value)) {
+        flag = true
+      }
+    })
 
-  return ret
+    return flag
+  }
 }
