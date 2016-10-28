@@ -75,12 +75,6 @@ function reviseRaw(raw) {
     : raw
 }
 
-function reviseCamelCase(str) {
-  const vendor = ['moz', 'o', 'ms', 'webkit']
-  let revise = str.replace(/[A-Z]/g, '-$1')
-  return revise
-}
-
 function typeOf(obj) {
   return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
 }

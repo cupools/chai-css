@@ -28,15 +28,22 @@ export const getAtRule = function (content, name, params) {
 
 export const assertDecl = function (content) {
   let root = postcss.parse(content)
-
   return function (prop, value) {
     let flag = false
+    let reviseProp = reviseCamelCase(prop)
+
     root.walkDecls(decl => {
-      if (!flag && decl.prop === prop && (value === undefined || decl.value === value)) {
+      if (!flag && decl.prop === reviseProp && (value === undefined || decl.value === value)) {
         flag = true
       }
     })
 
     return flag
   }
+}
+
+function reviseCamelCase(str) {
+  let isVendor = ['moz', 'o', 'ms', 'webkit'].some(vendor => str.indexOf(vendor) === 0)
+  let revise = (isVendor ? '-' + str : str).replace(/[A-Z]/g, match => '-' + match.toLowerCase())
+  return revise
 }

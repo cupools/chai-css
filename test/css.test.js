@@ -27,5 +27,11 @@ describe('css.js', function () {
       expect(css.assertDecl('.a {width:10px;}')('width', '10px')).to.equal(true)
       expect(css.assertDecl('.a {width:10px;width:10rem;}')('width', '10rem')).to.equal(true)
     })
+
+    it('should work with vendor', function () {
+      expect(css.assertDecl('.a {-webkit-transform:10px;}')('webkitTransform')).to.equal(true)
+      expect(css.assertDecl('.a {-moz-transform:10px;}')('mozTransform')).to.equal(true)
+      expect(css.assertDecl('.a {-moz-transform:10px;}')('webkitTransform')).to.equal(false)
+    })
   })
 })
