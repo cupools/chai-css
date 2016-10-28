@@ -34,14 +34,15 @@ function chainMethodRule(utils) {
     let content = reviseRaw(raw)
     let root = css.getRule(content, selector)
 
-
     this.assert(
       !!root,
       `expect #{this} to have rule \`${selector}\``,
       `expect #{this} to miss rule \`${selector}\``
     )
 
-    utils.flag(this, 'object', root.toString())
+    if (root) {
+      utils.flag(this, 'object', root.toString())
+    }
   }
 }
 
@@ -49,33 +50,24 @@ function methodDecl(utils) {
   return function (target, val) {
     let raw = utils.flag(this, 'object')
     let content = reviseRaw(raw)
-    let assert = css.assertDecl(content, selector)
+    let assert = css.assertDecl(content)
 
-    if (!rules) {
-      throw Error('`decl` should be in the method chain after `rule` or `atRule`')
-    } else if (!target) {
-      throw Error('`decl` should declare target value')
-    }
-
-    let actual = combineDecls(rules.map(css.getDecl.bind(css)))
-    let expected = val === undefined ? target : { [target]: val }
-
-    if (expected.constructor === String) {
+    if (typeOf(target) === 'string') {
       this.assert(
-        !!actual[expected],
-        `expect ${expected} to be exist but miss`
+        assert(target, val),
+        `expect #{this} to have decl \`${target}\``,
+        `expect #{this} to miss decl \`${target}\``
       )
-      return
+    } else if (typeOf(target) === 'object') {
+      Object.keys(target)
+        .forEach(key => {
+          this.assert(
+            assert(key, target[key]),
+            `expect #{this} to have decl \`${key}\``,
+            `expect #{this} to miss decl \`${key}\``
+          )
+        })
     }
-
-    Object.keys(expected).forEach(
-      key => {
-        this.assert(
-          Array.includes(actual[key], expected[key]),
-          `expect ${key} to be ${expected[key]} but get ${actual[key]}`
-        )
-      }
-    )
   }
 }
 
@@ -85,22 +77,14 @@ function reviseRaw(raw) {
     : raw
 }
 
-function combineDecls(decls) {
-  let ret = {}
-  decls.forEach(decl => {
-    Object.keys(decl).forEach(key => {
-      let val = decl[key]
-      ret[key] = (ret[key] || []).concat(val)
-    })
-  })
-
-  return ret
-}
-
 function reviseCamelCase(str) {
   const vendor = ['moz', 'o', 'ms', 'webkit']
   let revise = str.replace(/[A-Z]/g, '-$1')
   return revise
+}
+
+function typeOf(obj) {
+  return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
 }
 
 export default chaiCss

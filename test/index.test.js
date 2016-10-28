@@ -40,15 +40,4 @@ describe('index.js', function () {
     'test/fixtures/style.css'.should.have.rule('.a')
       .and.decl('width', '10px')
   })
-
-  it('should throw exception', function () {
-    expect(function () {
-      'test/fixtures/style.css'.should.have.decl('.a')
-    }).to.throw(Error)
-
-    expect(function () {
-      'test/fixtures/style.css'.should.have.rule('.a')
-        .and.decl()
-    }).to.throw(Error)
-  })
 })
