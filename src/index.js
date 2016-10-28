@@ -18,8 +18,8 @@ function chainMethodAtRule(utils) {
 
     this.assert(
       !!root,
-      `expect #{this} to have atRule \`${name}\``,
-      `expect #{this} to miss atRule \`${name}\``
+      `expect #{this} to have atRule '${name}'`,
+      `expect #{this} to miss atRule '${name}'`
     )
 
     if (root) {
@@ -36,8 +36,8 @@ function chainMethodRule(utils) {
 
     this.assert(
       !!root,
-      `expect #{this} to have rule \`${selector}\``,
-      `expect #{this} to miss rule \`${selector}\``
+      `expect #{this} to have rule '${selector}'`,
+      `expect #{this} to miss rule '${selector}'`
     )
 
     if (root) {
@@ -51,21 +51,19 @@ function methodDecl(utils) {
     let raw = utils.flag(this, 'object')
     let content = reviseRaw(raw)
     let assert = css.assertDecl(content)
+    let errorMsg = function (d, v) {
+      return [
+        `expect #{this} to have declaration '${d + (v ? ': ' + v : '')}'`,
+        `expect #{this} to miss declaration '${d + (v ? ': ' + v : '')}'`
+      ]
+    }
 
     if (typeOf(target) === 'string') {
-      this.assert(
-        assert(target, val),
-        `expect #{this} to have decl \`${target}\``,
-        `expect #{this} to miss decl \`${target}\``
-      )
+      this.assert(assert(target, val), ...errorMsg(target, val))
     } else if (typeOf(target) === 'object') {
       Object.keys(target)
         .forEach(key => {
-          this.assert(
-            assert(key, target[key]),
-            `expect #{this} to have decl \`${key}\``,
-            `expect #{this} to miss decl \`${key}\``
-          )
+          this.assert(assert(key, target[key]), ...errorMsg(target, val))
         })
     }
   }

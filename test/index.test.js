@@ -1,6 +1,5 @@
 /* eslint-env mocha */
-
-import Chai, { expect } from 'chai'
+import Chai from 'chai'
 import chaiCss from '../src/index'
 import './common.js'
 
