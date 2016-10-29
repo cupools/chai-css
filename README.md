@@ -7,9 +7,10 @@ Extends Chai with assertions about css.
 - [x] Basic function
 - [x] Vendor & camel case support
 - [x] Duplicate declares support
-- [ ] Assertion error message
+- [x] Assertion error message
 - [x] AtRule support
-- [ ] Test coverage
+- [x] Test coverage
+- [ ] More
 - [ ] Documentation
 
 ## Test
