@@ -73,5 +73,9 @@ describe('index.js', function () {
     expect(function () {
       '.a {width:10px;}'.should.have.rule('.a').and.decl()
     }).to.throw(Error)
+
+    expect(function () {
+      '@media (max-width: 10px) { .a { width:10px;} }'.should.have.atRule('undefined')
+    }).to.throw(Error)
   })
 })

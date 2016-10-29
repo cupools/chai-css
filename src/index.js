@@ -24,7 +24,7 @@ function chainMethodAtRule(Assertion, utils) {
         `expect #{this} to miss atRule '${n + (p ? ' (' + p + ')' : '')}'`
       ]
     }
-    this.assert(!!root, errorMsg(name, params))
+    this.assert(!!root, ...errorMsg(name, params))
 
     if (root) {
       utils.flag(this, 'object', root.toString())
