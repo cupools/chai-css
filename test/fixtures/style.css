@@ -1,4 +1,5 @@
 .a {
   width: 10px;
   height: 10px;
+  -webkit-transform: scale(1)
 }

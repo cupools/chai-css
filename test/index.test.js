@@ -27,17 +27,24 @@ describe('index.js', function () {
         width: '10px',
         height: '10px'
       })
+
+    '.a {width:10px;height:10px}'.should.have.rule('.a')
+      .and.decl({
+        width: '10px'
+      })
+      .and.not.have.decl('width', '0')
+      .and.not.have.decl('color')
   })
 
   it('should work with atRule', function () {
     '@media (max-width: 10px) { .a { width:10px; } } .a { height: 10px }'.should.have.atRule('media')
-      .and.have.rule('.a')
+      .and.rule('.a')
       .and.not.decl({
         height: '10px'
       })
 
     '@media (max-width: 10px) { .a { width:10px; height:10px; } }'.should.have.atRule('media', '(max-width: 10px)')
-      .and.have.rule('.a')
+      .and.rule('.a')
       .and.decl({
         width: '10px',
         height: '10px'
