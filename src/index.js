@@ -61,9 +61,11 @@ function methodDecl(Assertion, utils) {
     let assert = css.assertDecl(content)
 
     let errorMsg = function (d, v) {
+      let decl = typeOf(d) === 'object' ? JSON.stringify(d) : d
+      let expected = v ? ': ' + v : ''
       return [
-        `expect #{this} to have declaration '${d + (v ? ': ' + v : '')}'`,
-        `expect #{this} to miss declaration '${d + (v ? ': ' + v : '')}'`
+        `expect #{this} to have declaration '${decl + expected}'`,
+        `expect #{this} to miss declaration '${decl + expected}`
       ]
     }
 
