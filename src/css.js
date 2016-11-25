@@ -1,8 +1,8 @@
 import postcss from 'postcss'
 
 export const getRule = function (content, selector) {
-  let root = postcss.parse(content)
-  let ret = postcss.root()
+  const root = postcss.parse(content)
+  const ret = postcss.root()
 
   root.walkRules(rule => {
     if (rule.selector === selector) {
@@ -14,8 +14,8 @@ export const getRule = function (content, selector) {
 }
 
 export const getAtRule = function (content, name, params) {
-  let root = postcss.parse(content)
-  let ret = postcss.root()
+  const root = postcss.parse(content)
+  const ret = postcss.root()
 
   root.walkAtRules(atRule => {
     if (atRule.name === name && (params === undefined || params === atRule.params)) {
@@ -27,10 +27,10 @@ export const getAtRule = function (content, name, params) {
 }
 
 export const assertDecl = function (content) {
-  let root = postcss.parse(content)
+  const root = postcss.parse(content)
   return function (prop, value) {
     let flag = false
-    let reviseProp = reviseCamelCase(prop)
+    const reviseProp = reviseCamelCase(prop)
 
     root.walkDecls(decl => {
       if (!flag && decl.prop === reviseProp && (value === undefined || decl.value === value)) {
@@ -43,7 +43,7 @@ export const assertDecl = function (content) {
 }
 
 function reviseCamelCase(str) {
-  let isVendor = ['moz', 'o', 'ms', 'webkit'].some(vendor => str.indexOf(vendor) === 0)
-  let revise = (isVendor ? '-' + str : str).replace(/[A-Z]/g, match => '-' + match.toLowerCase())
+  const isVendor = ['moz', 'o', 'ms', 'webkit'].some(vendor => str.indexOf(vendor) === 0)
+  const revise = (isVendor ? '-' + str : str).replace(/[A-Z]/g, match => '-' + match.toLowerCase())
   return revise
 }

@@ -3,7 +3,7 @@ import path from 'path'
 import * as css from './css'
 
 function chaiCss(chai, utils) {
-  let { Assertion } = chai
+  const { Assertion } = chai
 
   Assertion.addChainableMethod('atRule', chainMethodAtRule(Assertion, utils))
   Assertion.addChainableMethod('rule', chainMethodRule(Assertion, utils))
@@ -14,11 +14,11 @@ function chainMethodAtRule(Assertion, utils) {
   return function (name, params) {
     new Assertion(name).to.be.a('string')
 
-    let raw = utils.flag(this, 'object')
-    let content = reviseRaw(raw)
-    let root = css.getAtRule(content, name, params)
+    const raw = utils.flag(this, 'object')
+    const content = reviseRaw(raw)
+    const root = css.getAtRule(content, name, params)
 
-    let errorMsg = function (n, p) {
+    const errorMsg = function (n, p) {
       return [
         `expect #{this} to have atRule '${n + (p ? ' (' + p + ')' : '')}'`,
         `expect #{this} to miss atRule '${n + (p ? ' (' + p + ')' : '')}'`
@@ -36,9 +36,9 @@ function chainMethodRule(Assertion, utils) {
   return function (selector) {
     new Assertion(selector).to.be.a('string')
 
-    let raw = utils.flag(this, 'object')
-    let content = reviseRaw(raw)
-    let root = css.getRule(content, selector)
+    const raw = utils.flag(this, 'object')
+    const content = reviseRaw(raw)
+    const root = css.getRule(content, selector)
 
     this.assert(
       !!root,
@@ -56,13 +56,13 @@ function methodDecl(Assertion, utils) {
   return function (target, val) {
     new Assertion(typeOf(target)).to.be.oneOf(['string', 'object'])
 
-    let raw = utils.flag(this, 'object')
-    let content = reviseRaw(raw)
-    let assert = css.assertDecl(content)
+    const raw = utils.flag(this, 'object')
+    const content = reviseRaw(raw)
+    const assert = css.assertDecl(content)
 
-    let errorMsg = function (d, v) {
-      let decl = typeOf(d) === 'object' ? JSON.stringify(d) : d
-      let expected = v ? ': ' + v : ''
+    const errorMsg = function (d, v) {
+      const decl = typeOf(d) === 'object' ? JSON.stringify(d) : d
+      const expected = v ? ': ' + v : ''
       return [
         `expect #{this} to have declaration '${decl + expected}'`,
         `expect #{this} to miss declaration '${decl + expected}`
