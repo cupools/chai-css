@@ -32,9 +32,9 @@ expect('test/fixtures/style.css').to.have.rule('.a')
 
 If you never meet postcss before, you should know:
 
-- `rule` is a selector in CSS, like `#wrap .item`
-- `atRule` is a CSS statement beginning with an at sign, ' @ ', like `@media (max-width: 10px)`
-- `decl` is CSS declaration, like `width`
+- `rule` is a selector in CSS, like "#wrap .item"
+- `atRule` is a CSS statement beginning with an at sign " @ ", like "@media (max-width: 10px)"
+- `decl` is CSS declaration, like "width"
 
 ```js
 import Chai, { expect } from 'chai'
