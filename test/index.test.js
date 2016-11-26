@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 import Chai, { expect } from 'chai'
 import stylus from 'stylus'
+import fs from 'fs'
 import chaiCss from '../src/index'
 import './common'
 

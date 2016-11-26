@@ -2,7 +2,7 @@
 
 import { expect } from 'chai'
 import * as css from '../src/css'
-import './common.js'
+import './common'
 
 describe('css.js', function () {
   describe('rule', function () {
