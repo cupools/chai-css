@@ -28,9 +28,9 @@ expect('test/fixtures/style.css').to.have.rule('.a')
 
 ## How to Use
 
-`chai-css` is dependent on [postcss][]. It extends `rule`, `atRule` and `decl` for Chai, which are common in postcss. With the three methods, we can easily make assertion for CSS.
+`chai-css` is dependent on [PostCSS][]. It extends `rule`, `atRule` and `decl` for [Chai][], which are common in PostCSS. With the three methods, we can easily make assertion for CSS.
 
-If you never meet postcss before, you should know:
+If you never meet PostCSS before, you should know:
 
 - `rule` is a selector in CSS, like "#wrap .item"
 - `atRule` is a CSS statement beginning with an at sign " @ ", like "@media (max-width: 10px)"
@@ -78,4 +78,5 @@ $ npm i && npm test
 
 MIT
 
-[postcss]: https://github.com/postcss/postcss
+[PostCSS]: https://github.com/postcss/postcss
+[Chai]: https://github.com/chaijs/chai

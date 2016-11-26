@@ -2,7 +2,16 @@ import fs from 'fs'
 import path from 'path'
 import * as css from './css'
 
-function chaiCss(chai, utils) {
+function chaiCss(...args) {
+  if (typeOf(args[0]) === 'function') {
+    reviseRaw.preprocessor = args[0]
+    return install
+  }
+
+  return install(...args)
+}
+
+function install(chai, utils) {
   const { Assertion } = chai
 
   Assertion.addChainableMethod('atRule', chainMethodAtRule(Assertion, utils))
@@ -81,9 +90,12 @@ function methodDecl(Assertion, utils) {
 }
 
 function reviseRaw(raw) {
-  return raw.slice(-4) === '.css' && fs.existsSync(path.resolve(raw))
+  const preprocessor = reviseRaw.preprocessor
+  const content = fs.existsSync(path.resolve(raw))
     ? fs.readFileSync(raw, 'utf8')
     : raw
+
+  return preprocessor ? preprocessor(content) : content
 }
 
 function typeOf(obj) {

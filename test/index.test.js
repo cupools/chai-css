@@ -1,5 +1,6 @@
 /* eslint-env mocha */
 import Chai, { expect } from 'chai'
+import stylus from 'stylus'
 import chaiCss from '../src/index'
 import './common'
 
@@ -77,5 +78,18 @@ describe('index.js', function () {
     expect(function () {
       '@media (max-width: 10px) { .a { width:10px;} }'.should.have.atRule('undefined')
     }).to.throw(Error)
+  })
+
+  it('should render stylus with plugin', function () {
+    const preprocessor = raw => stylus.render(raw)
+    Chai.use(chaiCss(preprocessor))
+
+    expect(`
+      .foo
+        width 10px
+    `).to.have.rule('.foo')
+      .and.decl('width', '10px')
+
+    Chai.use(chaiCss)
   })
 })

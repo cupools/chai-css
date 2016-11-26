@@ -32,7 +32,8 @@
     "eslint-plugin-import": "^1.16.0",
     "mocha": "^3.0.2",
     "nock": "^8.0.0",
-    "nyc": "^8.3.0"
+    "nyc": "^8.3.0",
+    "stylus": "^0.54.5"
   },
   "author": "liyh <cupools@gmail.com>",
   "license": "MIT",
