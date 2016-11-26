@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "6"
+  - "5"
+  - "4.4"
+  - "4.3.1"
+  - "0.12"
+after_script:
+  - npm run coverage
+cache:
+  bundler: true
+  directories:
+  - node_modules
+branches:
+  only:
+  - master
+notifications:
+  email: false
