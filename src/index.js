@@ -65,7 +65,7 @@ function methodDecl(Assertion, utils) {
       const expected = v ? ': ' + v : ''
       return [
         `expect #{this} to have declaration '${decl + expected}'`,
-        `expect #{this} to miss declaration '${decl + expected}`
+        `expect #{this} to miss declaration '${decl + expected}'`
       ]
     }
 
@@ -74,7 +74,7 @@ function methodDecl(Assertion, utils) {
     } else {
       Object.keys(target)
         .forEach(key => {
-          this.assert(assert(key, target[key]), ...errorMsg(target, val))
+          this.assert(assert(key, target[key]), ...errorMsg(key, target[key]))
         })
     }
   }
