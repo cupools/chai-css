@@ -35,6 +35,9 @@ describe('index.js', function () {
       })
       .and.not.have.decl('width', '0')
       .and.not.have.decl('color')
+      .and.not.have.decl({
+        background: '#000'
+      })
   })
 
   it('should work with atRule', function () {

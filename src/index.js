@@ -3,7 +3,8 @@ import path from 'path'
 import * as css from './css'
 
 function chaiCss(...args) {
-  if (typeOf(args[0]) === 'function') {
+  const preprocessor = args.slice(0, 1)[0]
+  if (typeOf(preprocessor) === 'function') {
     reviseRaw.preprocessor = args[0]
     return install
   }
@@ -28,9 +29,10 @@ function chainMethodAtRule(Assertion, utils) {
     const root = css.getAtRule(content, name, params)
 
     const errorMsg = function (n, p) {
+      const expected = p ? ' with params ' + p : ''
       return [
-        `expect #{this} to have atRule '${n + (p ? ' (' + p + ')' : '')}'`,
-        `expect #{this} to miss atRule '${n + (p ? ' (' + p + ')' : '')}'`
+        `expect #{this} to have atRule '${n + expected}'`,
+        `expect #{this} to not include atRule '${n + expected}'`
       ]
     }
     this.assert(!!root, ...errorMsg(name, params))
@@ -52,7 +54,7 @@ function chainMethodRule(Assertion, utils) {
     this.assert(
       !!root,
       `expect #{this} to have rule '${selector}'`,
-      `expect #{this} to miss rule '${selector}'`
+      `expect #{this} to not include rule '${selector}'`
     )
 
     if (root) {
@@ -69,12 +71,11 @@ function methodDecl(Assertion, utils) {
     const content = reviseRaw(raw)
     const assert = css.assertDecl(content)
 
-    const errorMsg = function (d, v) {
-      const decl = typeOf(d) === 'object' ? JSON.stringify(d) : d
+    const errorMsg = function (decl, v) {
       const expected = v ? ': ' + v : ''
       return [
         `expect #{this} to have declaration '${decl + expected}'`,
-        `expect #{this} to miss declaration '${decl + expected}'`
+        `expect #{this} to not include declaration '${decl + expected}'`
       ]
     }
 
