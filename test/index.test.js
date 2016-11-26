@@ -70,6 +70,11 @@ describe('index.js', function () {
       .and.decl('width', '10px')
   })
 
+  it('should work with buffer', function () {
+    fs.readFileSync('test/fixtures/style.css').should.have.rule('.a')
+      .and.decl('width', '10px')
+  })
+
   it('should throw error when miss parameter', function () {
     expect(function () {
       '.a {width:10px;}'.should.have.atRule().and.decl()

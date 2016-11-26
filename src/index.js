@@ -92,7 +92,7 @@ function methodDecl(Assertion, utils) {
 
 function reviseRaw(raw) {
   const preprocessor = reviseRaw.preprocessor
-  const content = fs.existsSync(path.resolve(raw))
+  const content = typeOf(raw) === 'string' && fs.existsSync(path.resolve(raw))
     ? fs.readFileSync(raw, 'utf8')
     : raw
 
