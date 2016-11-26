@@ -51,6 +51,7 @@ describe('index.js', function () {
         height: '10px'
       })
 
+    '@charset "UTF-8";'.should.have.atRule('charset', '"UTF-8"')
     '@media (max-width: 10px) { .a { width:10px; height:10px; } }'.should.not.have.atRule('charset')
     '@media (max-width: 10px) { .a { width:10px; height:10px; } }'.should.not.have.atRule('media', '(max-height: 10px)')
   })
@@ -87,8 +88,14 @@ describe('index.js', function () {
     expect(`
       .foo
         width 10px
+        height 10px
     `).to.have.rule('.foo')
       .and.decl('width', '10px')
+      .and.decl('height', '10px')
+
+    expect('test/fixtures/test.styl').to.have.rule('.foo')
+      .and.decl('color', '#fff')
+      .and.decl('background', '#000')
 
     Chai.use(chaiCss)
   })
