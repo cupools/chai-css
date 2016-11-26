@@ -1,4 +1,7 @@
-## chai-css
+## chai-css 
+
+[![Build Status](https://travis-ci.org/cupools/chai-css.svg?branch=master)](https://travis-ci.org/cupools/chai-css)
+[![Coverage Status](https://coveralls.io/repos/github/cupools/chai-css/badge.svg?branch=master)](https://coveralls.io/github/cupools/chai-css?branch=master)
 
 Extends Chai with assertions about css.
 
