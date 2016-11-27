@@ -1,6 +1,6 @@
 {
   "name": "chai-css",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Extends Chai with assertions about css",
   "main": "index.js",
   "scripts": {
