@@ -70,7 +70,7 @@ expect('@charset "UTF-8";').to.have.atRule('charset', '"UTF8"')
 expect('.foo { width: 10px; }').to.have.decl('width')
 expect('.foo { width: 10px; }').to.not.have.decl('height')
 expect('.foo { font-size: 16px; }').to.have.decl('font-size', '16px')
-expect('.foo { width: 10px; width: 1rem; }').to.have.decl('width', '10px').and.decl('width', '10rem')
+expect('.foo { width: 10px; width: 1rem; }').to.have.decl('width', '10px').and.decl('width', '1rem')
 expect('.foo { width: 10px; font-size: 16px; }').to.have.decl({
   width: '10px',
   fontSize: '16px'
