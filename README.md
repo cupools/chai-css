@@ -14,7 +14,7 @@ $ npm i --save-dev chai-css
 ```js
 const Chai = require('chai')
 const chaiCss = require('chai-css')
-const expect = Chai.expected
+const expect = Chai.expect
 
 Chai.use(chaiCss)
 
@@ -58,9 +58,9 @@ expect('#main .foo {width:10px;}').to.not.have.rule('#main')
 ### atRule
 
 ```js
-expect('@media (max-width: 10px) {.foo{width:10px;}}').to.have.atRule('@media')
-expect('@media (max-width: 10px) {.foo{width:10px;}}').to.have.atRule('@media', '(max-width: 10px)')
-expect('@media (max-width: 10px) {.foo{width:10px;}}').to.not.have.atRule('@media', '(max-height: 5px)')
+expect('@media (max-width: 10px) {.foo{width:10px;}}').to.have.atRule('media')
+expect('@media (max-width: 10px) {.foo{width:10px;}}').to.have.atRule('media', '(max-width: 10px)')
+expect('@media (max-width: 10px) {.foo{width:10px;}}').to.not.have.atRule('media', '(max-height: 5px)')
 expect('@charset "UTF-8";').to.have.atRule('charset', '"UTF8"')
 ```
 
@@ -101,9 +101,9 @@ expect('test/fixtures/style.css').to.have.rule('.a')
   })
 ```
 
-If you want to make an assertion of Stylus or SASS directly, you can provide a synchronous function and it will be executed before each assertion.
+To make assertions of Stylus or SASS directly, you can provide a synchronous function and it will be executed before each assertion.
 
-Stylus:
+As Stylus:
 
 ```js
 import Chai, { expect } from 'chai'
