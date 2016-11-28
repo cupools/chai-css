@@ -43,7 +43,8 @@ export const assertDecl = function (content) {
 }
 
 function reviseCamelCase(str) {
-  const isVendor = ['moz', 'o', 'ms', 'webkit'].some(vendor => str.indexOf(vendor) === 0)
-  const revise = (isVendor ? '-' + str : str).replace(/[A-Z]/g, match => '-' + match.toLowerCase())
-  return revise
+  return str
+    .replace(/([A-Z])/g, '-$1')
+    .toLowerCase()
+    .replace(/^-?(moz|o|ms|webkit)-/, '-$1-')
 }

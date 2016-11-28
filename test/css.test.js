@@ -34,4 +34,15 @@ describe('css.js', function () {
       expect(css.assertDecl('.a {-moz-transform:10px;}')('webkitTransform')).to.equal(false)
     })
   })
+
+  describe('vendor', function () {
+    it('should work', function () {
+      expect(css.assertDecl('.a {-o-transform:rotate(0);}')('OTransform')).to.equal(true)
+      expect(css.assertDecl('.a {-moz-transform:rotate(0);}')('MozTransform')).to.equal(true)
+      expect(css.assertDecl('.a {-webkit-transform:rotate(0);}')('webkitTransform')).to.equal(true)
+      expect(css.assertDecl('.a {-ms-transform:rotate(0);}')('msTransform')).to.equal(true)
+      expect(css.assertDecl('.a {outline:0;}')('outline')).to.equal(true)
+      expect(css.assertDecl('.a {overflow:auto;}')('overflow', 'auto')).to.equal(true)
+    })
+  })
 })
